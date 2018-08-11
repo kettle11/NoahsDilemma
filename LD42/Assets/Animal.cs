@@ -8,10 +8,29 @@ public class Animal : MonoBehaviour {
 
     Vector2 origin;
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         origin = this.transform.Find("origin").localPosition;
         AnimalColliders.CreateColliders(this.gameObject, origin, animalName);
-	}
+
+        // This fixes potentially small imperfections in placement when designing levels. It's important animals are only rotated to 90 degrees.
+        if (Mathf.Abs(Mathf.DeltaAngle(this.gameObject.transform.eulerAngles.z, 0)) < 30)
+        {
+            this.gameObject.transform.eulerAngles = new Vector3(0, 0, 0);
+        }
+        if (Mathf.Abs(Mathf.DeltaAngle(this.gameObject.transform.eulerAngles.z, 90)) < 30)
+        {
+            this.gameObject.transform.eulerAngles = new Vector3(0, 0, 90);
+        }
+        if (Mathf.Abs(Mathf.DeltaAngle(this.gameObject.transform.eulerAngles.z, 180)) < 30)
+        {
+            this.gameObject.transform.eulerAngles = new Vector3(0, 0, 180);
+        }
+        if (Mathf.Abs(Mathf.DeltaAngle(this.gameObject.transform.eulerAngles.z, 270)) < 30)
+        {
+            this.gameObject.transform.eulerAngles = new Vector3(0, 0, 270);
+        }
+
+    }
 
     bool moving = false;
 
