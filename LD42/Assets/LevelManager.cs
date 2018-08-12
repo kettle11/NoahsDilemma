@@ -10,11 +10,13 @@ public class LevelManager : MonoBehaviour {
 
     public static LevelManager instance;
 
+    public GameObject victoryScreen;
+
     public static Level currentLevel = null;
 	// Use this for initialization
 	void Start () {
         instance = this;
-        LoadLevel(levels[2]);
+        LoadLevel(levels[currentIndex]);
 	}
 	
     void PreviousLevel()
@@ -28,12 +30,14 @@ public class LevelManager : MonoBehaviour {
         LoadLevel(levels[0]);
     }
 
-    void NextLevel()
+    public void NextLevel()
     {
         currentIndex++;
         if (currentIndex >= levels.Count) currentIndex = levels.Count - 1;
 
         LoadLevel(levels[currentIndex]);
+
+        victoryScreen.SetActive(false);
     }
 
     void LoadLevel(Level level)
@@ -52,8 +56,9 @@ public class LevelManager : MonoBehaviour {
 
     public void Victory()
     {
-        Debug.Log("Victory!");
-        NextLevel();
+        victoryScreen.SetActive(true);
+       // Debug.Log("Victory!");
+      //  NextLevel();
     }
 
 	// Update is called once per frame
