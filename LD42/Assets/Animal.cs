@@ -12,6 +12,7 @@ public class Animal : MonoBehaviour {
         origin = this.transform.Find("origin").localPosition;
         AnimalColliders.CreateColliders(this.gameObject, origin, animalName);
 
+        transform.position = new Vector3(transform.position.x, transform.position.y, -1); // All animals are -1 so they're above the background
         // This fixes potentially small imperfections in placement when designing levels. It's important animals are only rotated to 90 degrees.
         if (Mathf.Abs(Mathf.DeltaAngle(this.gameObject.transform.eulerAngles.z, 0)) < 30)
         {
@@ -45,7 +46,7 @@ public class Animal : MonoBehaviour {
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = mousePos - moveOffset;
-            transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+            transform.position = new Vector3(transform.position.x, transform.position.y, -1);
 
             if (Input.GetKeyDown(KeyCode.R))
             {

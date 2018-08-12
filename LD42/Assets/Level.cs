@@ -7,15 +7,23 @@ public class Level : MonoBehaviour {
     public GameObject tileGameObject;
     public Color tileColor1;
     public Color tileColor2;
+    public Color backgroundColor;
+
+    public bool disableImmediately = true;
 
     Grid grid;
 	// Use this for initialization
 	void Start () {
         grid = GetComponent<Grid>();
         grid.cellSize = new Vector3(1 + tilePadding, 1 + tilePadding, 1 + tilePadding);
-        CreateLevel();
-	}
-	
+        // CreateLevel();
+
+        if (disableImmediately)
+        {
+            this.gameObject.SetActive(false);
+        }
+    }
+
     struct Tile
     {
         public bool occupied;
@@ -26,9 +34,13 @@ public class Level : MonoBehaviour {
 
     float tilePadding = .0f;
 
-    void CreateLevel()
+    public void CreateLevel()
     {
-        BoxCollider2D[] animals = GetComponentsInChildren<BoxCollider2D>();
+        grid = GetComponent<Grid>();
+        grid.cellSize = new Vector3(1 + tilePadding, 1 + tilePadding, 1 + tilePadding);
+
+        var transformFound = transform.Find("LevelData");
+        BoxCollider2D[] animals = transformFound.GetComponentsInChildren<BoxCollider2D>();
 
         int minX = int.MaxValue;
         int minY = int.MaxValue;
@@ -56,14 +68,21 @@ public class Level : MonoBehaviour {
             int yPos = (int)position.y - minY;
 
             tiles[xPos, yPos].visible = true;
+
+           // Destroy(animal.gameObject);
         }
 
-        bool colorToggle = false;
-        for (int i = minX; i <= maxX; ++i)
+        foreach (BoxCollider2D animal in animals)
         {
-            for (int j = minY; j <= maxY; j++)
+            animal.gameObject.SetActive(false);
+         //   Destroy(animal.gameObject);
+        }
+
+        for (int i = 0; i < tiles.GetLength(0); ++i)
+        {
+            for (int j = 0; j < tiles.GetLength(1); j++)
             {
-                if (tiles[i - minX, j - minY].visible)
+                if (tiles[i, j].visible)
                 {
                     GameObject tile = GameObject.Instantiate(tileGameObject, this.transform);
 
@@ -76,9 +95,8 @@ public class Level : MonoBehaviour {
                     }
 
                     tile.transform.localScale += Vector3.one * tilePadding;
-                    tile.transform.position = new Vector3(i, j, 0) * (1.0f + tilePadding) + transform.position + (grid.cellSize / 2f);
+                    tile.transform.localPosition = new Vector3(i, j, -.3f) * (1.0f + tilePadding) + (grid.cellSize / 2f);
                 }
-                colorToggle = !colorToggle;
             }
         }
     }
