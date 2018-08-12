@@ -139,6 +139,7 @@ public class Level : MonoBehaviour {
         BoxCollider2D[] animals = animal.GetComponentsInChildren<BoxCollider2D>();
 
         bool entirelyWithinGrid = true;
+        bool cannotPlaceHere = false;
 
         foreach (var collider in animals)
         {
@@ -166,8 +167,13 @@ public class Level : MonoBehaviour {
 
             if (tiles[xPos, yPos].occupied || !tiles[xPos, yPos].visible)
             {
-                return false;
+                cannotPlaceHere = true;
             }
+        }
+
+        if (cannotPlaceHere)
+        {
+            return false;
         }
 
         if (!partiallyWithinGrid)
@@ -191,7 +197,6 @@ public class Level : MonoBehaviour {
             currentNumberOfTilesCovered++;
         }
 
-        Debug.Log(currentNumberOfTilesCovered);
         if(currentNumberOfTilesCovered >= numberOfTilesNeededToWin)
         {
             LevelManager.instance.Victory();
