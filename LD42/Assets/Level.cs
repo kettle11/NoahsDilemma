@@ -27,12 +27,19 @@ public class Level : MonoBehaviour {
     struct Tile
     {
         public bool occupied;
+        public Animal occupiedBy;
         public bool visible;
     };
 
     Tile[,] tiles;
 
     float tilePadding = .0f;
+
+    int minX;
+    int minY;
+
+    int maxX;
+    int maxY;
 
     public void CreateLevel()
     {
@@ -42,11 +49,11 @@ public class Level : MonoBehaviour {
         var transformFound = transform.Find("LevelData");
         BoxCollider2D[] animals = transformFound.GetComponentsInChildren<BoxCollider2D>();
 
-        int minX = int.MaxValue;
-        int minY = int.MaxValue;
+        minX = int.MaxValue;
+        minY = int.MaxValue;
 
-        int maxX = int.MinValue;
-        int maxY = int.MinValue;
+        maxX = int.MinValue;
+        maxY = int.MinValue;
 
         foreach (BoxCollider2D animal in animals)
         {
@@ -68,6 +75,7 @@ public class Level : MonoBehaviour {
             int yPos = (int)position.y - minY;
 
             tiles[xPos, yPos].visible = true;
+            tiles[xPos, yPos].occupied = false;
 
            // Destroy(animal.gameObject);
         }
@@ -99,6 +107,83 @@ public class Level : MonoBehaviour {
                 }
             }
         }
+    }
+
+    public void RemoveAnimal(Animal animal)
+    {
+        for(int i = 0; i < tiles.GetLength(0); ++i)
+        {
+            for (int j = 0; j < tiles.GetLength(1); ++j)
+            {
+                if (tiles[i, j].occupiedBy == animal)
+                {
+                    tiles[i, j].occupied = false;
+                    tiles[i, j].occupiedBy = null;
+                }
+            }
+        }
+    }
+
+    public bool CheckPlaceAnimal(Animal animal, ref bool partiallyWithinGrid)
+    {
+        BoxCollider2D[] animals = animal.GetComponentsInChildren<BoxCollider2D>();
+
+        bool entirelyWithinGrid = true;
+
+        foreach (var collider in animals)
+        {
+            Vector3 position = grid.LocalToCell(collider.bounds.center) + new Vector3(1, 1, 0);
+            int xPos = (int)position.x - minX;
+            int yPos = (int)position.y - minY;
+
+            if (position.x < minX || position.x > maxX )
+            {
+                entirelyWithinGrid = false;
+                continue;
+            }
+
+            if (position.y < minY || position.y > maxY)
+            {
+                entirelyWithinGrid = false;
+                continue;
+            }
+
+            partiallyWithinGrid = true;
+
+            if (tiles[xPos, yPos].occupied || !tiles[xPos, yPos].visible)
+            {
+                return false;
+            }
+        }
+
+        if (!partiallyWithinGrid)
+        {
+            return false;
+        }
+
+        if (partiallyWithinGrid && !entirelyWithinGrid)
+        {
+            return false;
+        }
+
+        foreach (var collider in animals)
+        {
+            Vector3 position = grid.LocalToCell(collider.bounds.center) + new Vector3(1, 1, 0);
+            int xPos = (int)position.x - minX;
+            int yPos = (int)position.y - minY;
+
+            tiles[xPos, yPos].occupied = true;
+            tiles[xPos, yPos].occupiedBy = animal;
+        }
+
+        return true;
+    }
+
+    public Vector3 ReturnSnappingDiff(Animal animal)
+    {
+        BoxCollider2D[] animals = animal.GetComponentsInChildren<BoxCollider2D>();
+        Vector3 position = grid.LocalToCell(animals[0].bounds.center);
+        return position - animals[0].bounds.center;
     }
 
     // Update is called once per frame

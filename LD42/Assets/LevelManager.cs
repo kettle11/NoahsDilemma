@@ -7,7 +7,7 @@ public class LevelManager : MonoBehaviour {
     public List<Level> levels;
 
     int currentIndex = 0;
-    Level currentLevel = null;
+    public static Level currentLevel = null;
 	// Use this for initialization
 	void Start () {
         LoadLevel(levels[0]);

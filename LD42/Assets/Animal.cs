@@ -39,6 +39,17 @@ public class Animal : MonoBehaviour {
 	void Update () {
         if (Input.GetMouseButtonUp(0))
         {
+            if (moving)
+            {
+                bool partiallyWithinGrid = false;
+                bool canPlaceHere = LevelManager.currentLevel.CheckPlaceAnimal(this, ref partiallyWithinGrid);
+
+                if(!canPlaceHere && partiallyWithinGrid)
+                {
+                    transform.position = originalPosition;
+                }
+            }
+
             moving = false;
         }
 
@@ -65,6 +76,8 @@ public class Animal : MonoBehaviour {
     }
 
     Vector3 moveOffset;
+    Vector3 originalPosition;
+
     void OnMouseOver()
     {
         //If your mouse hovers over the GameObject with the script attached, output this message
@@ -75,6 +88,10 @@ public class Animal : MonoBehaviour {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             moveOffset = mousePos - transform.position;
             moving = true;
+
+            originalPosition = transform.position;
+
+            LevelManager.currentLevel.RemoveAnimal(this);
         }
     }
 
