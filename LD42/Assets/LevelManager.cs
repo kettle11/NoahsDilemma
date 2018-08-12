@@ -20,7 +20,7 @@ public class LevelManager : MonoBehaviour {
     }
     // Use this for initialization
     void Start () {
-        LoadLevel(levels[currentIndex]);
+        LoadLevel(levels[levels.Count-1]);
 	}
 
     public Camera mainCamera;
