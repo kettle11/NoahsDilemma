@@ -5,13 +5,18 @@ using UnityEngine;
 public class Animal : MonoBehaviour {
 
     public string animalName;
+    public bool collidersSetup = false;
 
     Vector2 origin;
 	// Use this for initialization
 	void Awake () {
         origin = this.transform.Find("origin").localPosition;
-        AnimalColliders.CreateColliders(this.gameObject, origin, animalName);
 
+        if (!collidersSetup)
+        {
+            AnimalColliders.CreateColliders(this.gameObject, origin, animalName);
+            collidersSetup = true;
+        }
         transform.position = new Vector3(transform.position.x, transform.position.y, -1); // All animals are -1 so they're above the background
         // This fixes potentially small imperfections in placement when designing levels. It's important animals are only rotated to 90 degrees.
         if (Mathf.Abs(Mathf.DeltaAngle(this.gameObject.transform.eulerAngles.z, 0)) < 30)
@@ -34,10 +39,11 @@ public class Animal : MonoBehaviour {
     }
 
     bool moving = false;
+    bool previouslyInGrid = false;
 
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetMouseButtonUp(0))
+        if (!Input.GetMouseButton(0))
         {
             if (moving)
             {
@@ -47,12 +53,19 @@ public class Animal : MonoBehaviour {
                 if(!canPlaceHere && partiallyWithinGrid)
                 {
                     transform.position = originalPosition;
+                    transform.rotation = originalRotation;
                 }
 
                 if (canPlaceHere)
                 {
+                    previouslyInGrid = true;
                     Vector3 snappingDif = LevelManager.currentLevel.ReturnSnappingDiff(this);
                     this.transform.position += snappingDif;
+                } else if (previouslyInGrid)
+                {
+                    // If the animal was previously in the grid place it back where it back into the grid where it started.
+                    previouslyInGrid = true;
+                    LevelManager.currentLevel.CheckPlaceAnimal(this, ref partiallyWithinGrid);
                 }
             }
 
@@ -83,6 +96,7 @@ public class Animal : MonoBehaviour {
 
     Vector3 moveOffset;
     Vector3 originalPosition;
+    Quaternion originalRotation;
 
     void OnMouseOver()
     {
@@ -96,6 +110,7 @@ public class Animal : MonoBehaviour {
             moving = true;
 
             originalPosition = transform.position;
+            originalRotation = transform.rotation;
 
             LevelManager.currentLevel.RemoveAnimal(this);
         }

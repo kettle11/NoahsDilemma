@@ -84,6 +84,11 @@ public class Level : MonoBehaviour {
            // Destroy(animal.gameObject);
         }
 
+        maxX -= minX;
+        maxY -= minY;
+        minX = 0;
+        minY = 0;
+
         foreach (BoxCollider2D animal in animals)
         {
             animal.gameObject.SetActive(false);
@@ -127,6 +132,8 @@ public class Level : MonoBehaviour {
                 }
             }
         }
+
+        Debug.Log(currentNumberOfTilesCovered);
     }
 
     public bool CheckPlaceAnimal(Animal animal, ref bool partiallyWithinGrid)
@@ -137,7 +144,7 @@ public class Level : MonoBehaviour {
 
         foreach (var collider in animals)
         {
-            Vector3 position = grid.LocalToCell(collider.bounds.center) + new Vector3(1, 1, 0);
+            Vector3 position = grid.LocalToCell(collider.bounds.center);
             int xPos = (int)position.x - minX;
             int yPos = (int)position.y - minY;
 
@@ -173,7 +180,7 @@ public class Level : MonoBehaviour {
 
         foreach (var collider in animals)
         {
-            Vector3 position = grid.LocalToCell(collider.bounds.center) + new Vector3(1, 1, 0);
+            Vector3 position = grid.LocalToCell(collider.bounds.center);
             int xPos = (int)position.x - minX;
             int yPos = (int)position.y - minY;
 
@@ -182,9 +189,10 @@ public class Level : MonoBehaviour {
             currentNumberOfTilesCovered++;
         }
 
-        if(currentNumberOfTilesCovered == numberOfTilesNeededToWin)
+        Debug.Log(currentNumberOfTilesCovered);
+        if(currentNumberOfTilesCovered >= numberOfTilesNeededToWin)
         {
-            Debug.Log("VICTORY!");
+            LevelManager.instance.Victory();
         }
 
         return true;

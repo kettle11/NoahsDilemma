@@ -7,10 +7,14 @@ public class LevelManager : MonoBehaviour {
     public List<Level> levels;
 
     int currentIndex = 0;
+
+    public static LevelManager instance;
+
     public static Level currentLevel = null;
 	// Use this for initialization
 	void Start () {
-        LoadLevel(levels[0]);
+        instance = this;
+        LoadLevel(levels[2]);
 	}
 	
     void PreviousLevel()
@@ -46,6 +50,11 @@ public class LevelManager : MonoBehaviour {
         currentLevel.transform.position = new Vector3(0, 0, -.5f);
     }
 
+    public void Victory()
+    {
+        Debug.Log("Victory!");
+        NextLevel();
+    }
 
 	// Update is called once per frame
 	void Update () {
