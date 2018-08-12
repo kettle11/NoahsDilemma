@@ -11,6 +11,9 @@ public class Level : MonoBehaviour {
 
     public bool disableImmediately = true;
 
+    public int numberOfTilesNeededToWin = 0;
+    int currentNumberOfTilesCovered = 0;
+
     Grid grid;
 	// Use this for initialization
 	void Start () {
@@ -76,6 +79,7 @@ public class Level : MonoBehaviour {
 
             tiles[xPos, yPos].visible = true;
             tiles[xPos, yPos].occupied = false;
+            numberOfTilesNeededToWin++;
 
            // Destroy(animal.gameObject);
         }
@@ -119,6 +123,7 @@ public class Level : MonoBehaviour {
                 {
                     tiles[i, j].occupied = false;
                     tiles[i, j].occupiedBy = null;
+                    currentNumberOfTilesCovered--;
                 }
             }
         }
@@ -174,6 +179,12 @@ public class Level : MonoBehaviour {
 
             tiles[xPos, yPos].occupied = true;
             tiles[xPos, yPos].occupiedBy = animal;
+            currentNumberOfTilesCovered++;
+        }
+
+        if(currentNumberOfTilesCovered == numberOfTilesNeededToWin)
+        {
+            Debug.Log("VICTORY!");
         }
 
         return true;
