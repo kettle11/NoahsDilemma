@@ -13,12 +13,22 @@ public class LevelManager : MonoBehaviour {
     public GameObject victoryScreen;
 
     public static Level currentLevel = null;
-	// Use this for initialization
-	void Start () {
+
+    private void Awake()
+    {
         instance = this;
+    }
+    // Use this for initialization
+    void Start () {
         LoadLevel(levels[currentIndex]);
 	}
-	
+
+    public Camera mainCamera;
+    public void StartGame()
+    {
+        mainCamera.gameObject.SetActive(true);
+    }
+
     void PreviousLevel()
     {
         currentIndex--;
