@@ -6,7 +6,7 @@ public class StartScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-       // StartGame();
+        StartGame();
 	}
 	
     public void StartGame()

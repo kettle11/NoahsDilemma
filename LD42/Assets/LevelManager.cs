@@ -20,7 +20,8 @@ public class LevelManager : MonoBehaviour {
     }
     // Use this for initialization
     void Start () {
-        LoadLevel(levels[levels.Count-1]);
+       // currentIndex = levels.Count - 1;
+        LoadLevel(levels[currentIndex]);
 	}
 
     public Camera mainCamera;
@@ -40,10 +41,18 @@ public class LevelManager : MonoBehaviour {
         LoadLevel(levels[0]);
     }
 
+    public GameObject endScreen;
+
     public void NextLevel()
     {
         currentIndex++;
-        if (currentIndex >= levels.Count) currentIndex = levels.Count - 1;
+        if (currentIndex >= levels.Count)
+        {
+            currentIndex = levels.Count - 1;
+            mainCamera.enabled = false;
+            endScreen.SetActive(true);
+            SoundSource.PlayCompleteGame();
+        }
 
         LoadLevel(levels[currentIndex]);
 
@@ -67,6 +76,7 @@ public class LevelManager : MonoBehaviour {
     public void Victory()
     {
         victoryScreen.SetActive(true);
+        SoundSource.PlayCompleteLevel();
        // Debug.Log("Victory!");
       //  NextLevel();
     }

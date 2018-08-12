@@ -45,6 +45,7 @@ public class Animal : MonoBehaviour {
 	void Update () {
         if (!Input.GetMouseButton(0))
         {
+
             if (moving)
             {
                 bool partiallyWithinGrid = false;
@@ -54,18 +55,29 @@ public class Animal : MonoBehaviour {
                 {
                     transform.position = originalPosition;
                     transform.rotation = originalRotation;
+
+                    SoundSource.PlayError();
                 }
 
                 if (canPlaceHere)
                 {
+                    SoundSource.PlayDropGrid();
+
                     previouslyInGrid = true;
                     Vector3 snappingDif = LevelManager.currentLevel.ReturnSnappingDiff(this);
                     this.transform.position += snappingDif;
                 } else if (previouslyInGrid)
                 {
+                    SoundSource.PlayDropGrid(); // Could be a different sound eventually
+
                     // If the animal was previously in the grid place it back where it back into the grid where it started.
                     previouslyInGrid = true;
                     LevelManager.currentLevel.CheckPlaceAnimal(this, ref partiallyWithinGrid);
+                }
+
+                if (!partiallyWithinGrid)
+                {
+                    SoundSource.PlayDrop();
                 }
             }
 
@@ -80,6 +92,7 @@ public class Animal : MonoBehaviour {
 
             if (Input.GetKeyDown(KeyCode.R) || Input.GetKeyDown(KeyCode.Space))
             {
+                SoundSource.PlayRotate();
                 Rotate(1);
             }
         }
@@ -105,6 +118,15 @@ public class Animal : MonoBehaviour {
 
         if (Input.GetMouseButtonDown(0))
         {
+            if (previouslyInGrid)
+            {
+                SoundSource.PlayPickupGrid();
+            }
+            else
+            {
+                SoundSource.PlayPickup();
+            }
+
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             moveOffset = mousePos - transform.position;
             moving = true;
