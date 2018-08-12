@@ -17,7 +17,7 @@ public class Animal : MonoBehaviour {
             AnimalColliders.CreateColliders(this.gameObject, origin, animalName);
             collidersSetup = true;
         }
-        transform.position = new Vector3(transform.position.x, transform.position.y, -1); // All animals are -1 so they're above the background
+       // transform.position = new Vector3(transform.position.x, transform.position.y, -1); // All animals are -1 so they're above the background
         // This fixes potentially small imperfections in placement when designing levels. It's important animals are only rotated to 90 degrees.
         if (Mathf.Abs(Mathf.DeltaAngle(this.gameObject.transform.eulerAngles.z, 0)) < 30)
         {

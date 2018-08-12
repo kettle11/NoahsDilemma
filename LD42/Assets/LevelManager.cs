@@ -16,7 +16,7 @@ public class LevelManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         instance = this;
-        LoadLevel(levels[levels.Count - 1]);
+        LoadLevel(levels[currentIndex]);
 	}
 	
     void PreviousLevel()

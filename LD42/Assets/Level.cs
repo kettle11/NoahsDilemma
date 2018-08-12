@@ -132,8 +132,6 @@ public class Level : MonoBehaviour {
                 }
             }
         }
-
-        Debug.Log(currentNumberOfTilesCovered);
     }
 
     public bool CheckPlaceAnimal(Animal animal, ref bool partiallyWithinGrid)
