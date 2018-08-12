@@ -160,7 +160,11 @@ public class Level : MonoBehaviour {
                 continue;
             }
 
-            partiallyWithinGrid = true;
+
+            if (tiles[xPos, yPos].visible)
+            {
+                partiallyWithinGrid = true;
+            }
 
             if (tiles[xPos, yPos].occupied || !tiles[xPos, yPos].visible)
             {

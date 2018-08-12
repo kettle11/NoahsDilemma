@@ -78,7 +78,7 @@ public class Animal : MonoBehaviour {
             transform.position = mousePos - moveOffset;
             transform.position = new Vector3(transform.position.x, transform.position.y, -1);
 
-            if (Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(KeyCode.R) || Input.GetKeyDown(KeyCode.Space))
             {
                 Rotate(1);
             }
