@@ -67,4 +67,48 @@ public class SoundSource : MonoBehaviour {
         audioSource.PlayOneShot(instance.completeGame);
 
     }
+
+    public AudioClip start;
+
+    public static void PlayStart()
+    {
+        audioSource.PlayOneShot(instance.start);
+    }
+
+    public AudioClip penguin;
+    public AudioClip giraffe;
+    public AudioClip hippo;
+    public AudioClip alligator;
+    public AudioClip trex;
+    public AudioClip lion;
+    
+    public static void PlayName(string name)
+    {
+        switch (name)
+        {
+            case "penguin":
+                audioSource.PlayOneShot(instance.penguin);
+                break;
+            case "giraffe":
+                audioSource.PlayOneShot(instance.giraffe);
+                break;
+            case "hippo":
+                audioSource.PlayOneShot(instance.hippo);
+                break;
+            case "elephant":
+                audioSource.PlayOneShot(instance.hippo);
+                break;
+            case "trex":
+                audioSource.PlayOneShot(instance.trex);
+                break;
+            case "alligator":
+                audioSource.PlayOneShot(instance.alligator);
+                break;
+            case "lion":
+                audioSource.PlayOneShot(instance.giraffe);
+                break;
+            default:
+                break;
+        }
+    }
 }

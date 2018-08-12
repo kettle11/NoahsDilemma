@@ -13474,7 +13474,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5.430283
+  orthographic size: 6.746656
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -21525,6 +21525,13 @@ MonoBehaviour:
   complete: {fileID: 8300000, guid: 4daf97c0dcca40e49b475c9819bebed3, type: 3}
   completeGame: {fileID: 8300000, guid: 869c9dabf222ace4c90834a20d20a6d4, type: 3}
   clapping: {fileID: 8300000, guid: 0d8c8397f253e1c4b9a97de481842e96, type: 3}
+  start: {fileID: 8300000, guid: 14cf1a9ff944562468e488bc36e6f5bc, type: 3}
+  penguin: {fileID: 8300000, guid: 0602e67ad7efd384c8d4edd3499c088b, type: 3}
+  giraffe: {fileID: 8300000, guid: 6320b3f8aa838a44cbdcf533f3063ded, type: 3}
+  hippo: {fileID: 8300000, guid: 3f973cd7f3ff84745b575991ca4b2836, type: 3}
+  alligator: {fileID: 8300000, guid: a1bae30c135137042b1b7c04fd36a546, type: 3}
+  trex: {fileID: 8300000, guid: b443cf17e4c698649ac179296c21c3de, type: 3}
+  lion: {fileID: 8300000, guid: 6320b3f8aa838a44cbdcf533f3063ded, type: 3}
 --- !u!82 &1606994453
 AudioSource:
   m_ObjectHideFlags: 0
@@ -21970,7 +21977,7 @@ AudioListener:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1653870576}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1653870578
 Camera:
   m_ObjectHideFlags: 0
@@ -25855,7 +25862,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2091141325}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.4189157, y: -9.615942, z: -0.24670894}
+  m_LocalPosition: {x: -52, y: -8.5, z: -0.24670894}
   m_LocalScale: {x: 8.681763, y: 5.9227104, z: 3.788}
   m_Children: []
   m_Father: {fileID: 777247433}
