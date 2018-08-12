@@ -193,8 +193,8 @@ public class Level : MonoBehaviour {
     public Vector3 ReturnSnappingDiff(Animal animal)
     {
         BoxCollider2D[] animals = animal.GetComponentsInChildren<BoxCollider2D>();
-        Vector3 position = grid.LocalToCell(animals[0].bounds.center);
-        return position - animals[0].bounds.center;
+        Vector3 position = grid.LocalToCell(animals[0].bounds.center - this.transform.position);
+        return position + new Vector3(.5f, .5f, 0) - animals[0].bounds.center;
     }
 
     // Update is called once per frame

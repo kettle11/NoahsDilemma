@@ -48,6 +48,12 @@ public class Animal : MonoBehaviour {
                 {
                     transform.position = originalPosition;
                 }
+
+                if (canPlaceHere)
+                {
+                    Vector3 snappingDif = LevelManager.currentLevel.ReturnSnappingDiff(this);
+                    this.transform.position += snappingDif;
+                }
             }
 
             moving = false;
